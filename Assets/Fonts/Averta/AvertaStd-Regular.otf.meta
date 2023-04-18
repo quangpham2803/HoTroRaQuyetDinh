@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 33406896c96652b4fa6e28efd3bee0c0
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Averta Std
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 033f9778d8d101b40946968739486e92, type: 3}
+  - {fileID: 12800000, guid: c2f8ba616467aa845886f8b332c2ece0, type: 3}
+  - {fileID: 12800000, guid: 504335ee0c35e384a8d3c7d561eb7052, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
