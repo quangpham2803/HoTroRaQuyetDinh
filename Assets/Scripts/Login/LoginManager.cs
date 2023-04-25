@@ -49,6 +49,7 @@ public class LoginManager : MonoBehaviour
     }
     void GetNewPassword()
     {
+      
         if (_inputForgotUserNameSignUp.text != "" && _inputForgotPhoneNumberSignUp.text != "")
         {
             Debug.Log("okokClickGetNewPassword");
@@ -56,6 +57,8 @@ public class LoginManager : MonoBehaviour
     }    
     void OnSwitchForgetButton()
     {
+        SQL sql = new SQL();
+        sql.GetSomeThing();
         _logupPanel.SetActive(false);
         _loginPanel.SetActive(false);
         _forgetPasswordPanel.SetActive(true);
