@@ -12,11 +12,11 @@ public class SQL : MonoBehaviour
     {
        
     }
-    public void GetSomeThing()
+    public bool CheckLogin(string username, string password)
     {
         SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
-        string sql = "select Customer_Name, Customer_Password from Customer";
+        string sql = "select Customer_Name, Customer_Password from Customer where Customer_Name = '" + username + "' and Customer_Password = '" + password + "'";
         SqlCommand cmd = new SqlCommand();
 
         cmd.Connection = connection;
@@ -31,15 +31,30 @@ public class SQL : MonoBehaviour
                 {                 
                     var Username = reader.GetValue(0);
                     var Password = reader.GetValue(1);
-                    Debug.Log(Username.ToString() +"    "+ Password.ToString());
+                    if (Username != null)
+                    {
+                        return true;
+                    }    
+                    else
+                    {
+                        return false;
+                    }    
                 }
             }
         }
+        return false;
+    }
 
-    }
-    // Update is called once per frame
-    void Update()
+    public void SignUp(string UserName, string Password, string PhoneNumber)
     {
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+        string sql = "";// "Insert Into Customer(Customer_ID, Customer_Name, Customer_Password, Customer_Phone) values('" +UserName+"'"CS_001','admin', 'admin', 'admin')";
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.Connection = connection;
+        cmd.CommandText = sql;
         
-    }
+    }    
+
 }

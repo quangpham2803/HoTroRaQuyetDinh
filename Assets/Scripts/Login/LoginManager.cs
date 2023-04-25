@@ -30,6 +30,8 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private TMP_InputField _inputForgotUserNameSignUp;
     [SerializeField] private TMP_InputField _inputForgotPhoneNumberSignUp;
 
+    private SQL _SQL = new SQL();
+
     private void Awake()
     {
         _switchLogButton.onClick.AddListener(OnSwitchLogButton);
@@ -57,8 +59,6 @@ public class LoginManager : MonoBehaviour
     }    
     void OnSwitchForgetButton()
     {
-        SQL sql = new SQL();
-        sql.GetSomeThing();
         _logupPanel.SetActive(false);
         _loginPanel.SetActive(false);
         _forgetPasswordPanel.SetActive(true);
@@ -83,13 +83,15 @@ public class LoginManager : MonoBehaviour
     {
         if (_inputUserName.text != "" && _inputPassword.text != "")
         {
-            if (_inputUserName.text == "admin")
-            {
-                if (_inputPassword.text == "admin")
-                {
-                    SceneManager.LoadScene("Main");
-                }
+            bool islogin = _SQL.CheckLogin(_inputUserName.text, _inputPassword.text);
+            if (islogin)
+            {               
+                SceneManager.LoadScene("Main");              
             }
+            else
+            {
+                Debug.Log("Sai TK or MK");
+            }    
         }
 
     }
