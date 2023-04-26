@@ -19,6 +19,7 @@ public class UIMain : MonoBehaviour
 
     private void Awake()
     {
+     
         for (int i = 0; i < _listMainButtons.Count; i++)
         {
             var temp = i;
@@ -26,6 +27,7 @@ public class UIMain : MonoBehaviour
         }
 
         _profileButton.onClick.AddListener(() => { _profilePanel.SetActive(true);});
+        OnSelectMainButton(0);
     }
 
 
@@ -39,6 +41,7 @@ public class UIMain : MonoBehaviour
             if (i == _idMainButton)
             {
                 _listMainPanels[i].SetActive(true);
+                _listMainButtons[i].Select();
             }
             else
             {
