@@ -30,8 +30,11 @@ public class ListUIButtonItem : MonoBehaviour
             if (button == uiButton)
             {
                 button.GetComponent<Image>().enabled = true;
+                
                 listMenu[button.idButton].SetActive(true);
-               // button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = Color.black;
+                SelectController.instance.CategoryHandleButton = button;
+                SelectController.instance.CategoryHandleGameObject = listMenu[button.idButton];
+                // button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = Color.black;
             }
             else
             {
