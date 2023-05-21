@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class Item : MonoBehaviour
 {
     public int ID;
@@ -13,6 +15,10 @@ public class Item : MonoBehaviour
     public int Speed;
     public int Category;
     public string Unit;
+    public float Result_AHP;
+
+
+
 
     public void initDataItem(int id, string name, string image, float price, float rating, float calo, int speed, int category, string unit)
     {

@@ -6,17 +6,10 @@ using System.Data.SqlClient;
 
 public class SQL : MonoBehaviour
 {
-    string connectionString = "Data Source=MSI;Initial Catalog=DES_Restaurant;Integrated Security=True";
+    string connectionString = "Data Source=MSI;Initial Catalog=DES_Restaurant;Integrated Security=True; Max Pool Size=100;Connect Timeout=60";
     public static SQL instance;
     // Start is called before the first frame update
-    void Awake()
-    {
-        if(instance != null)
-        {
-            instance = this;
-        }    
-        
-    }
+
     public bool CheckLogin(string username, string password)
     {
         SqlConnection connection = new SqlConnection(connectionString);
@@ -39,10 +32,12 @@ public class SQL : MonoBehaviour
                     if (Username != null)
                     {
                         return true;
+                        connection.Close();
                     }    
                     else
                     {
                         return false;
+                        connection.Close();
                     }    
                 }
             }
@@ -59,13 +54,15 @@ public class SQL : MonoBehaviour
 
         cmd.Connection = connection;
         cmd.CommandText = sql;
-        
+        connection.Close();
+
     }    
     public void GetFoodFromDB(string price, string speed, string rating, int category)
     {
         SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
-        string sql = "select MenuItem_ID, MenuItem_Name, MenuItem_Image, MenuItem_Price, MenuItem_Calo, MenuItem_Rating, MenuItem_Speed, MenuItem_Category, MenuItem_Unit from MenuItems where MenuItem_Price "+ price + " and " + speed + " and " + rating + " and MenuItem_Category = " + category + "";
+        //string sql = "select MenuItem_ID, MenuItem_Name, MenuItem_Image, MenuItem_Price, MenuItem_Calo, MenuItem_Rating, MenuItem_Speed, MenuItem_Category, MenuItem_Unit from MenuItems where MenuItem_Price "+ price + " and " + speed + " and " + rating + " and MenuItem_Category = " + category + "";
+        string sql = "select Top 5 MenuItem_ID, MenuItem_Name, MenuItem_Image, MenuItem_Price, MenuItem_Calo, MenuItem_Rating, MenuItem_Speed, MenuItem_Category, MenuItem_Unit from MenuItems where MenuItem_Price <= 600000 and (MenuItem_Speed >= 1 and MenuItem_Speed <= 9) and (MenuItem_Rating <=5 and MenuItem_Rating >= 1) and MenuItem_Category = 2";
         SqlCommand cmd = new SqlCommand();
 
         cmd.Connection = connection;
@@ -93,7 +90,7 @@ public class SQL : MonoBehaviour
                 }
             }
         }
-   
+        connection.Close();
     }   
     
     public float GetValueInCriteria(int menu1, int menu2, int criteria)
@@ -114,6 +111,7 @@ public class SQL : MonoBehaviour
                 while (reader.Read())
                 {
                     return (float)reader.GetDouble(0);
+                    connection.Close();
                 }
             }
         }

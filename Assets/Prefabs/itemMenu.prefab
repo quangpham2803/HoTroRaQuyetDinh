@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 6807651690471365574}
   - component: {fileID: 6807651690471365577}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Rate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 6807651690482807095}
   - component: {fileID: 6807651690482807094}
   - component: {fileID: 8208575812366228670}
+  - component: {fileID: 7851700113145977665}
   m_Layer: 5
   m_Name: itemMenu
   m_TagString: Untagged
@@ -390,6 +391,23 @@ MonoBehaviour:
   Speed: 0
   Category: 0
   Unit: 
+  Result_AHP: 0
+--- !u!114 &7851700113145977665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6807651690482807096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0709dfb604092244951c08a584a9993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Nametxt: {fileID: 6807651690674178553}
+  Giatxt: {fileID: 6807651690591166578}
+  Ratetxt: {fileID: 6807651690471365577}
+  ImageBG: {fileID: 6807651689046628299}
 --- !u!1 &6807651690525492555
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +498,7 @@ GameObject:
   - component: {fileID: 6807651690591166579}
   - component: {fileID: 6807651690591166578}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Gia
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,10 +579,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 67.9
   m_fontSizeBase: 50
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -615,7 +633,7 @@ GameObject:
   - component: {fileID: 6807651690674178550}
   - component: {fileID: 6807651690674178553}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -696,10 +714,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70
+  m_fontSize: 67.95
   m_fontSizeBase: 70
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
