@@ -101,8 +101,8 @@ public class SelectController : MonoBehaviour
         {
             for (int j = 1; j < Items.Count + 1; j++)
             {
-                float value = Matrix_Price[i, j] / sum[j-1];
-              
+                float value = Matrix_Price[i, j] / sum[j - 1];
+
                 Matrix_Price_Update[i, j] = value;
             }
         }
@@ -534,6 +534,15 @@ public class SelectController : MonoBehaviour
 
     public void OnclickGoiYMon()
     {
+        if (Items.Count > 0)
+        {
+            Items.Clear();
+
+            foreach (Transform child in PopupGoiYMonContent)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+        }
         CategoryCriteriaController Category = CategoryHandleGameObject.GetComponent<CategoryCriteriaController>();
         _SQL.GetFoodFromDB(Category.PriceValue, Category.SpeedValue, Category.RatingValue, CategoryHandleButton.idButton + 1);
 
@@ -581,13 +590,13 @@ public class SelectController : MonoBehaviour
             }
             Debug.Log(output);
             float[] WeightsCriteria = new float[4];
-            WeightsCriteria[0] =  0.4845f;
+            WeightsCriteria[0] = 0.4845f;
             WeightsCriteria[1] = 0.0476f;
-            WeightsCriteria[2] =  0.3661f;
+            WeightsCriteria[2] = 0.3661f;
             WeightsCriteria[3] = 0.1018f;
 
-          
-     
+
+
             float[] Result = new float[Items.Count];
 
             for (int i = 1; i < Items.Count + 1; i++)
@@ -601,7 +610,7 @@ public class SelectController : MonoBehaviour
             string output_1 = "";
 
             for (int i = 0; i < Items.Count; i++)
-            {    
+            {
                 output_1 += Result[i] + " ";
                 output_1 += "\n";
             }
@@ -609,7 +618,7 @@ public class SelectController : MonoBehaviour
 
             for (int i = 0; i < Items.Count; i++)
             {
-                Items[i].Result_AHP =  Result[i];
+                Items[i].Result_AHP = Result[i];
             }
 
             Items.Sort(new FloatComparer());

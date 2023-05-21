@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.053221386, y: 0.19176471}
   m_AnchorMax: {x: 0.97526765, y: 0.9662354}
-  m_AnchoredPosition: {x: -5.5, y: -15.18396}
-  m_SizeDelta: {x: 40.599976, y: 38.369995}
+  m_AnchoredPosition: {x: -5.5, y: 56.20807}
+  m_SizeDelta: {x: 40.6, y: -104.4141}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6807651689046628296
 CanvasRenderer:
@@ -656,8 +656,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.038000003, y: 0.09182353}
   m_AnchorMax: {x: 0.9398954, y: 0.17764705}
-  m_AnchoredPosition: {x: -1, y: -13.67041}
-  m_SizeDelta: {x: 3.8482056, y: 40.159393}
+  m_AnchoredPosition: {x: -1.9241028, y: 43.330017}
+  m_SizeDelta: {x: 3.8482, y: 154.17}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6807651690674178550
 CanvasRenderer:
@@ -687,7 +687,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "G\xF3i gia \u0111\xECnh"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 13f44f7b9da7dc84b852035443dd4920, type: 2}
   m_sharedMaterial: {fileID: -5786288705310248996, guid: 13f44f7b9da7dc84b852035443dd4920, type: 2}
@@ -714,10 +714,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.95
-  m_fontSizeBase: 70
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
