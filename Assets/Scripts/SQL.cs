@@ -94,5 +94,29 @@ public class SQL : MonoBehaviour
             }
         }
    
+    }   
+    
+    public float GetValueInCriteria(int menu1, int menu2, int criteria)
+    {
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+        string sql = "select Priority_criteria_forMenu_Score from Priority_criteria_forMenu where Priority_criteria_forMenu_1 = " + menu1 + " and Priority_criteria_forMenu_2 = " + menu2 + " and Priority_criteria_ID = " + criteria + "";
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.Connection = connection;
+        cmd.CommandText = sql;
+      
+        using (System.Data.Common.DbDataReader reader = cmd.ExecuteReader())
+        {
+            if (reader.HasRows)
+            {
+
+                while (reader.Read())
+                {
+                    return (float)reader.GetDouble(0);
+                }
+            }
+        }
+        return 0;
     }    
 }
