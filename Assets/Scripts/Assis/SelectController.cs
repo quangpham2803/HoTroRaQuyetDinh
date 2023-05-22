@@ -591,9 +591,9 @@ public class SelectController : MonoBehaviour
             Debug.Log(output);
             float[] WeightsCriteria = new float[4];
             WeightsCriteria[0] = 0.4845f;
-            WeightsCriteria[1] = 0.0476f;
-            WeightsCriteria[2] = 0.3661f;
-            WeightsCriteria[3] = 0.1018f;
+            WeightsCriteria[1] = 0.3661f;
+            WeightsCriteria[2] = 0.1018f;
+            WeightsCriteria[3] = 0.0476f;
 
 
 
