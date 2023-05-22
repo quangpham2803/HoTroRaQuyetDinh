@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Data.SqlClient;
 using System.IO;
+using System;
+using System.Data;
 
 public class SQL : MonoBehaviour
 {
@@ -15,7 +17,7 @@ public class SQL : MonoBehaviour
     {
         SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
-        string sql = "select Customer_Name, Customer_Password from Customer where Customer_Name = '" + username + "' and Customer_Password = '" + password + "'";
+        string sql = "select Customer_ID, Customer_Name, Customer_Password from Customer where Customer_Name = '" + username + "' and Customer_Password = '" + password + "'";
         SqlCommand cmd = new SqlCommand();
 
         cmd.Connection = connection;
@@ -27,24 +29,223 @@ public class SQL : MonoBehaviour
             {
 
                 while (reader.Read())
-                {                 
-                    var Username = reader.GetValue(0);
-                    var Password = reader.GetValue(1);
+                {
+                    string id = reader.GetString(0);
+                    string Username = reader.GetString(1);
+                    string Password = reader.GetString(2);
                     if (Username != null)
                     {
+                        UserInfomation us = GameObject.FindGameObjectWithTag("User").GetComponent<UserInfomation>();
+                        us.ID = id;
+                        us.name = Username;
+                        us.password = Password;
                         return true;
                         connection.Close();
-                    }    
+                    }
                     else
                     {
                         return false;
                         connection.Close();
-                    }    
+                    }
                 }
             }
         }
         return false;
     }
+
+    public void SaveMenu(DateTime date, string customer, string name_menu, List<Item> items)
+    {
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+
+        SqlCommand cmd = new SqlCommand("insert into Menu(Menu_Time, Menu_Customer, Menu_Name) values (@date,@user,@name)", connection);
+        SqlParameter param_date = new SqlParameter("@date", SqlDbType.Date);
+        param_date.Value = date;
+
+        SqlParameter param_user = new SqlParameter("@user", SqlDbType.VarChar);
+        param_user.Value = customer;
+
+        SqlParameter param_name = new SqlParameter("@name", SqlDbType.NVarChar);
+        param_name.Value = name_menu;
+
+        cmd.Parameters.Add(param_date);
+        cmd.Parameters.Add(param_user);
+        cmd.Parameters.Add(param_name);
+        cmd.ExecuteNonQuery();
+
+        // insert item to MenuItem Detail 
+        string sql = "SELECT Menu_ID FROM Menu WHERE Menu_ID = (SELECT MAX(Menu_ID) FROM Menu);";
+        SqlCommand cmd_1 = new SqlCommand();
+
+        cmd_1.Connection = connection;
+        cmd_1.CommandText = sql;
+        int id_menu = -1;
+        using (System.Data.Common.DbDataReader reader = cmd_1.ExecuteReader())
+        {
+            if (reader.HasRows)
+            {
+
+                while (reader.Read())
+                {
+                    id_menu = reader.GetInt32(0);
+                }
+            }
+        }
+
+        if (id_menu != -1)
+        {
+           
+            if (items.Count > 0)
+            {
+                foreach(Item it in items)
+                {
+                    try
+                    {
+                        string sql_1 = "Insert into MenuDetail(MenuDetail_Item, MenuDetail_MenuID) Values(" + it.ID + "," + id_menu + ")";
+                        SqlCommand cmd_2 = new SqlCommand();
+                        cmd_2.Connection = connection;
+                        cmd_2.CommandText = sql_1;
+                        cmd_2.ExecuteNonQuery();
+                    }
+                    catch (Exception)
+                    {
+                        Debug.Log("Trung Menu");
+                    }
+                  
+                }    
+                
+         
+            }    
+           
+        }    
+        connection.Close();
+
+    }
+
+    public List<MenuInFo> GetAllMenu(string user)
+    {
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+        string sql = "select Menu_ID, Menu_Name, Menu_Time from Menu where Menu_Customer = '"+ user+"'";
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.Connection = connection;
+        cmd.CommandText = sql;
+        List<MenuInFo> newMenus = new List<MenuInFo>();
+        using (System.Data.Common.DbDataReader reader = cmd.ExecuteReader())
+        {
+            if (reader.HasRows)
+            {
+
+                while (reader.Read())
+                {
+                    MenuInFo newMenu = new MenuInFo();
+                    int id = reader.GetInt32(0);
+                    string name = reader.GetString(1);
+                    string date = reader.GetDateTime(2).ToString();
+                    newMenu.id = id;
+                    newMenu.name = name;
+                    newMenu.date = date;
+                    List<Item> listItem = GetALLFood(id);
+                    newMenu.Items = listItem;
+                    newMenus.Add(newMenu);
+                   
+                }
+            }
+        }
+        connection.Close();
+        return newMenus;
+    }    
+
+    List<int> GetListIDFood(int id)
+    {
+        List<int> intlist = new List<int>();
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+        string sql = "select MenuDetail_Item from MenuDetail where MenuDetail_MenuID = " + id + " ";
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.Connection = connection;
+        cmd.CommandText = sql;
+
+        using (System.Data.Common.DbDataReader reader = cmd.ExecuteReader())
+        {
+            if (reader.HasRows)
+            {
+
+                while (reader.Read())
+                {
+                    int id_new = reader.GetInt32(0);
+                    intlist.Add(id_new);
+
+                }
+            }
+        }
+        connection.Close();
+        return intlist;
+
+    }
+
+    List<Item> GetALLFood(int id)
+    {
+        List<int> listint = GetListIDFood(id);
+        List<Item> listItem = new List<Item>();
+        if (listint.Count > 0)
+        {
+            for (int i = 0; i < listint.Count; i++)
+            {
+                SqlConnection connection = new SqlConnection(connectionString);
+                connection.Open();
+                string sql = "select MenuItem_ID, MenuItem_Name, MenuItem_Image, MenuItem_Price, MenuItem_Calo, MenuItem_Rating, MenuItem_Speed, MenuItem_Category, MenuItem_Unit, MenuItems_Recipe from MenuItems where MenuItem_ID = " + listint[i] + " ";
+                SqlCommand cmd = new SqlCommand();
+
+                cmd.Connection = connection;
+                cmd.CommandText = sql;
+
+                using (System.Data.Common.DbDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+
+                        while (reader.Read())
+                        {
+                            int ID = reader.GetInt32(0);
+                            string Name = reader.GetString(1);
+
+                            byte[] imageData = (byte[])reader["MenuItem_Image"];
+                            Texture2D texture = new Texture2D(1, 1);
+                            texture.LoadImage(imageData);
+                            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+
+                            long Price = reader.GetInt64(3);
+                            double Calo = reader.GetDouble(4);
+                            double Rating = reader.GetDouble(5);
+                            int Speed = reader.GetInt32(6);
+                            int Category = reader.GetInt32(7);
+                            string Unit = reader.GetString(8);
+                            string Recipe;
+                            try
+                            {
+                                Recipe = reader.GetString(9);
+                                Recipe = Recipe.Substring(3, Recipe.Length - 8);
+                            }
+                            catch (Exception)
+                            {
+                                Recipe = "";
+                            }
+
+
+                            Item newItem = new Item();
+
+                            newItem.initDataItem(ID, Name, sprite, Price, (float)Rating, (float)Calo, Speed, Category, Unit, Recipe);
+                            listItem.Add(newItem);
+                        }
+                    }
+                }
+            }             
+        }    
+        return listItem;
+    }    
 
     public void SignUp(string UserName, string Password, string PhoneNumber)
     {
@@ -57,7 +258,7 @@ public class SQL : MonoBehaviour
         cmd.CommandText = sql;
         connection.Close();
 
-    }    
+    }
     public void GetFoodFromDB(string price, string speed, string rating, int category)
     {
         SqlConnection connection = new SqlConnection(connectionString);
@@ -79,9 +280,9 @@ public class SQL : MonoBehaviour
                     int ID = reader.GetInt32(0);
                     string Name = reader.GetString(1);
 
-                    byte[] imageData = (byte[])reader["MenuItem_Image"];   
+                    byte[] imageData = (byte[])reader["MenuItem_Image"];
                     Texture2D texture = new Texture2D(1, 1);
-                    texture.LoadImage(imageData);   
+                    texture.LoadImage(imageData);
                     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 
                     long Price = reader.GetInt64(3);
@@ -90,8 +291,18 @@ public class SQL : MonoBehaviour
                     int Speed = reader.GetInt32(6);
                     int Category = reader.GetInt32(7);
                     string Unit = reader.GetString(8);
-                    string Recipe = reader.GetString(9);
-                    Recipe = Recipe.Substring(3, Recipe.Length - 8);
+                    string Recipe;
+                    try
+                    {
+                        Recipe = reader.GetString(9);
+                        Recipe = Recipe.Substring(3, Recipe.Length - 8);
+                    }
+                    catch (Exception)
+                    {
+                        Recipe = "";
+                    }
+
+
                     Item newItem = new Item();
 
                     newItem.initDataItem(ID, Name, sprite, Price, (float)Rating, (float)Calo, Speed, Category, Unit, Recipe);
@@ -100,8 +311,8 @@ public class SQL : MonoBehaviour
             }
         }
         connection.Close();
-    }   
-    
+    }
+
     public float GetValueInCriteria(int menu1, int menu2, int criteria)
     {
         SqlConnection connection = new SqlConnection(connectionString);
@@ -111,7 +322,7 @@ public class SQL : MonoBehaviour
 
         cmd.Connection = connection;
         cmd.CommandText = sql;
-      
+
         using (System.Data.Common.DbDataReader reader = cmd.ExecuteReader())
         {
             if (reader.HasRows)
@@ -125,5 +336,5 @@ public class SQL : MonoBehaviour
             }
         }
         return 0;
-    }    
+    }
 }

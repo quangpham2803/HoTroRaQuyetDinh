@@ -11,4 +11,11 @@ public class ItemController : MonoBehaviour
     public TMP_Text Recipetxt;
     public TMP_Text Unittxt;
     public Image ImageBG;
+
+    public void LayMon()
+    {
+        SelectController sct = GameObject.FindGameObjectWithTag("Assis").GetComponent<SelectController>();
+        Item it = this.gameObject.GetComponent<Item>();
+        sct.AddItemToMenu(it);
+    }    
 }

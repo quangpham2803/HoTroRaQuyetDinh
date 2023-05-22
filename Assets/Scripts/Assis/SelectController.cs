@@ -16,6 +16,7 @@ public class SelectController : MonoBehaviour
     public Transform PopupGoiYMonContent;
 
     public List<Item> Items = new List<Item>();
+    public List<Item> ItemsInMenu = new List<Item>();
 
     public float[,] Matrix_Result;
     // Start is called before the first frame update
@@ -621,7 +622,7 @@ public class SelectController : MonoBehaviour
             {
                 GameObject newitem = Instantiate(ItemObject, PopupGoiYMonContent);
                 Item newit = newitem.GetComponent<Item>();
-                newit = it;
+                newit.initDataItem(it.ID,it.Name,it.Image, it.Price, it.Rating, it.Calo, it.Speed, it.Category, it.Unit, it.Recipe);
                 ItemController itct = newitem.gameObject.GetComponent<ItemController>();
                 itct.Nametxt.text = newit.Name;
                 itct.Giatxt.text = newit.Price.ToString() + " vnđ";
@@ -635,6 +636,11 @@ public class SelectController : MonoBehaviour
         }
         PopupGoiYMon.SetActive(true);
     }
+
+    public void AddItemToMenu(Item it)
+    {
+        ItemsInMenu.Add(it);
+    }    
 
 }
 
