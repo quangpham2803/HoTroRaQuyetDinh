@@ -8,19 +8,20 @@ public class Item : MonoBehaviour
 {
     public int ID;
     public string Name;
-    public string Image;
+    public Sprite Image;
     public float Price;
     public float Rating;
     public float Calo;
     public int Speed;
     public int Category;
     public string Unit;
+    public string Recipe;
     public float Result_AHP;
 
 
 
 
-    public void initDataItem(int id, string name, string image, float price, float rating, float calo, int speed, int category, string unit)
+    public void initDataItem(int id, string name, Sprite image, float price, float rating, float calo, int speed, int category, string unit, string recipe)
     {
         ID = id;
         Name = name;
@@ -31,5 +32,6 @@ public class Item : MonoBehaviour
         Speed = speed;
         Category = category;
         Unit = unit;
+        Recipe = recipe;
     }    
 }

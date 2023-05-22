@@ -22262,6 +22262,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8634080872305454191}
     m_Modifications:
+    - target: {fileID: 7112033803698348565, guid: 91b9d7e2293e6db4faa063d1879b8d79, type: 3}
+      propertyPath: m_CellSize.y
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 7112033803886172234, guid: 91b9d7e2293e6db4faa063d1879b8d79, type: 3}
       propertyPath: m_Color.a
       value: 0

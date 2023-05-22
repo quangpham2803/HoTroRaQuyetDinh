@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Data.SqlClient;
+using System.IO;
 
 public class SQL : MonoBehaviour
 {
@@ -61,7 +62,7 @@ public class SQL : MonoBehaviour
     {
         SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
-        string sql = "select Top 5  MenuItem_ID, MenuItem_Name, MenuItem_Image, MenuItem_Price, MenuItem_Calo, MenuItem_Rating, MenuItem_Speed, MenuItem_Category, MenuItem_Unit from MenuItems where MenuItem_Price " + price + " and " + speed + " and " + rating + " and MenuItem_Category = " + category + "";
+        string sql = "select Top 5  MenuItem_ID, MenuItem_Name, MenuItem_Image, MenuItem_Price, MenuItem_Calo, MenuItem_Rating, MenuItem_Speed, MenuItem_Category, MenuItem_Unit, MenuItems_Recipe from MenuItems where MenuItem_Price " + price + " and " + speed + " and " + rating + " and MenuItem_Category = " + category + "";
         //string sql = "select Top 5 MenuItem_ID, MenuItem_Name, MenuItem_Image, MenuItem_Price, MenuItem_Calo, MenuItem_Rating, MenuItem_Speed, MenuItem_Category, MenuItem_Unit from MenuItems where MenuItem_Price <= 600000 and (MenuItem_Speed >= 1 and MenuItem_Speed <= 9) and (MenuItem_Rating <=5 and MenuItem_Rating >= 1) and MenuItem_Category = 2";
         SqlCommand cmd = new SqlCommand();
 
@@ -77,15 +78,23 @@ public class SQL : MonoBehaviour
                 {
                     int ID = reader.GetInt32(0);
                     string Name = reader.GetString(1);
-                    //string Image = reader.GetString(2);
+
+                    byte[] imageData = (byte[])reader["MenuItem_Image"];   
+                    Texture2D texture = new Texture2D(1, 1);
+                    texture.LoadImage(imageData);   
+                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+
                     long Price = reader.GetInt64(3);
                     double Calo = reader.GetDouble(4);
                     double Rating = reader.GetDouble(5);
                     int Speed = reader.GetInt32(6);
                     int Category = reader.GetInt32(7);
                     string Unit = reader.GetString(8);
+                    string Recipe = reader.GetString(9);
+                    Recipe = Recipe.Substring(3, Recipe.Length - 8);
                     Item newItem = new Item();
-                    newItem.initDataItem(ID, Name, "",Price, (float)Rating, (float)Calo, Speed, Category, Unit);
+
+                    newItem.initDataItem(ID, Name, sprite, Price, (float)Rating, (float)Calo, Speed, Category, Unit, Recipe);
                     SelectController.instance.Items.Add(newItem);
                 }
             }

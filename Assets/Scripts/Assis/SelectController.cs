@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.IO;
 
 public class SelectController : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class SelectController : MonoBehaviour
         //init First row and column
         for (int i = 0; i < Items.Count + 1; i++)
         {
-            if (i == 0)
+            if (i == 0) 
             {
                 //row
                 Matrix_Price[i, 0] = 0;
@@ -150,7 +151,6 @@ public class SelectController : MonoBehaviour
             Matrix_Result[i, 1] = weight[i - 1];
         }
     }
-
     private void MatrixRating()
     {
         float[,] Matrix_Rating = new float[Items.Count + 1, Items.Count + 1];
@@ -276,8 +276,6 @@ public class SelectController : MonoBehaviour
             Matrix_Result[i, 2] = weight[i - 1];
         }
     }
-
-
     private void MatrixSpeed()
     {
         float[,] Matrix_Speed = new float[Items.Count + 1, Items.Count + 1];
@@ -403,8 +401,6 @@ public class SelectController : MonoBehaviour
             Matrix_Result[i, 4] = weight[i - 1];
         }
     }
-
-
     private void MatrixCalo()
     {
         float[,] Matrix_Calo = new float[Items.Count + 1, Items.Count + 1];
@@ -531,7 +527,6 @@ public class SelectController : MonoBehaviour
         }
     }
 
-
     public void OnclickGoiYMon()
     {
         if (Items.Count > 0)
@@ -569,8 +564,6 @@ public class SelectController : MonoBehaviour
                 }
 
             }
-
-
 
             //Init Matrix Price from List Item
             MatrixPrice();
@@ -633,12 +626,15 @@ public class SelectController : MonoBehaviour
                 itct.Nametxt.text = newit.Name;
                 itct.Giatxt.text = newit.Price.ToString() + " vnđ";
                 itct.Ratetxt.text = newit.Rating.ToString();
+                itct.Unittxt.text = newit.Unit.ToString();
+                itct.Recipetxt.text = newit.Recipe.ToString();
+                itct.ImageBG.sprite = newit.Image;
+
+                
             }
         }
         PopupGoiYMon.SetActive(true);
     }
-
-
 
 }
 
