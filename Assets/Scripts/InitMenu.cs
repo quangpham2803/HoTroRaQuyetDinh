@@ -50,7 +50,6 @@ public class InitMenu : MonoBehaviour
     }
     public void OpenPopup(MenuInFo mn)
     {
-        //GameObject.FindGameObjectWithTag("Panel").gameObject.SetActive(true);
 
         foreach (Transform child in ContentPanel)
         {

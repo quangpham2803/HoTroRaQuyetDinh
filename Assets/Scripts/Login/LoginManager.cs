@@ -46,7 +46,8 @@ public class LoginManager : MonoBehaviour
     {
         if (_inputUserNameSignUp.text != "" && _inputPasswordSignUp.text != "" && _inputPhoneNumberSignUp.text != "")
         {
-            Debug.Log("okokClickSignUp");
+            _SQL.SignUp(_inputUserNameSignUp.text, _inputPasswordSignUp.text, _inputPhoneNumberSignUp.text);
+            HasAccount();
         }
     }
     void GetNewPassword()
