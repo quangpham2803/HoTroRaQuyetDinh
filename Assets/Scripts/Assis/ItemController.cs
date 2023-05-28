@@ -17,5 +17,6 @@ public class ItemController : MonoBehaviour
         SelectController sct = GameObject.FindGameObjectWithTag("Assis").GetComponent<SelectController>();
         Item it = this.gameObject.GetComponent<Item>();
         sct.AddItemToMenu(it);
+        this.gameObject.SetActive(false);
     }    
 }

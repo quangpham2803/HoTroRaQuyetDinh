@@ -53,12 +53,12 @@ public class SQL : MonoBehaviour
         return false;
     }
 
-    public void SaveMenu(DateTime date, string customer, string name_menu, List<Item> items)
+    public void SaveMenu(DateTime date, string customer, string name_menu, List<Item> items, float total, int numTable)
     {
         SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
 
-        SqlCommand cmd = new SqlCommand("insert into Menu(Menu_Time, Menu_Customer, Menu_Name) values (@date,@user,@name)", connection);
+        SqlCommand cmd = new SqlCommand("insert into Menu(Menu_Time, Menu_Customer, Menu_Name, Menu_TableCount, Menu_TablePrice) values (@date,@user,@name,@tablecount, @tableprice)", connection);
         SqlParameter param_date = new SqlParameter("@date", SqlDbType.Date);
         param_date.Value = date;
 
@@ -68,9 +68,17 @@ public class SQL : MonoBehaviour
         SqlParameter param_name = new SqlParameter("@name", SqlDbType.NVarChar);
         param_name.Value = name_menu;
 
+        SqlParameter param_tablecount = new SqlParameter("@tablecount", SqlDbType.Int);
+        param_tablecount.Value = numTable;
+
+        SqlParameter param_ntableprice = new SqlParameter("@tableprice", SqlDbType.BigInt);
+        param_ntableprice.Value = total;
+
         cmd.Parameters.Add(param_date);
         cmd.Parameters.Add(param_user);
         cmd.Parameters.Add(param_name);
+        cmd.Parameters.Add(param_tablecount);
+        cmd.Parameters.Add(param_ntableprice);
         cmd.ExecuteNonQuery();
 
         // insert item to MenuItem Detail 
@@ -126,7 +134,7 @@ public class SQL : MonoBehaviour
     {
         SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
-        string sql = "select Menu_ID, Menu_Name, Menu_Time from Menu where Menu_Customer = '" + user + "'";
+        string sql = "select Menu_ID, Menu_Name, Menu_Time, Menu_TableCount, Menu_TablePrice from Menu where Menu_Customer = '" + user + "'";
         SqlCommand cmd = new SqlCommand();
 
         cmd.Connection = connection;
@@ -143,9 +151,14 @@ public class SQL : MonoBehaviour
                     int id = reader.GetInt32(0);
                     string name = reader.GetString(1);
                     string date = reader.GetDateTime(2).ToString();
+                    int table = reader.GetInt32(3);
+                    long price = reader.GetInt64(4);
+                   
                     newMenu.id = id;
                     newMenu.name = name;
                     newMenu.date = date;
+                    newMenu.totalTable = table;
+                    newMenu.totalPrice = (float)price;
                     List<Item> listItem = GetALLFoodByID(id);
                     newMenu.Items = listItem;
                     newMenus.Add(newMenu);

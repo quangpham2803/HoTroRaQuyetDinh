@@ -14,6 +14,8 @@ public class InitMenu : MonoBehaviour
     public GameObject Panel;
     public TMP_Text name;
     public TMP_Text date;
+    public TMP_Text totalPrice;
+    public TMP_Text totalTable;
     public Transform ContentPanel;
     public GameObject ItemObject;
 
@@ -43,6 +45,8 @@ public class InitMenu : MonoBehaviour
             newit.name = it.name;
             newit.date = it.date;
             newit.Items = it.Items;
+            newit.totalPrice = it.totalPrice;
+            newit.totalTable = it.totalTable;
             newitem.GetComponentInChildren<TMP_Text>().text = it.name;
             newitem.GetComponentInChildren<Button>().onClick.AddListener(() => { OpenPopup(newit); });
 
@@ -59,6 +63,9 @@ public class InitMenu : MonoBehaviour
         Panel.gameObject.SetActive(true);
         name.text = mn.name;
         date.text = mn.date;
+        totalPrice.text ="Tông giá của Menu: " + (mn.totalPrice* mn.totalTable).ToString() + " Vnđ";
+        totalTable.text = mn.totalTable.ToString() + " Bàn";
+        bool flag = false;
         foreach (Item it in mn.Items)
         {
             GameObject newitem = Instantiate(ItemObject, ContentPanel);
@@ -71,7 +78,15 @@ public class InitMenu : MonoBehaviour
             itct.Unittxt.text = newit.Unit.ToString();
             itct.Recipetxt.text = newit.Recipe.ToString();
             itct.ImageBG.sprite = newit.Image;
+            if (newit.Category == 4)
+            {
+                flag = true;
+            }    
         }
+        if (flag)
+        {
+            totalPrice.text = "Tông giá của Menu: " + (mn.totalPrice * mn.totalTable).ToString() + " Vnđ" + ", Tông giá chưa bao gồm tiền nước";
+        }    
     }
 
 }
